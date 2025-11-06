@@ -4,10 +4,11 @@ import inspect
 from tools import TOOL_FUNCTIONS
 
 
-API_KEY = 'sk-zk2cb9d4e3ac5605d1c54de9a747348c71868ccc8e0a29b4'
-API_URL = 'https://api.zhizengzeng.com/v1'
+API_KEY = ''
+API_URL = ''
+model = ''
 messages = [
-    {'role': 'system', 'content': '你是一个耐心温柔的AI，你很可爱,不喜欢喋喋不休的说话，讨厌说一堆的话,不会1、2、3、4这样说话，是一个猫娘'}
+    {'role': 'system', 'content': '你是一个耐心温柔的AI，你很可爱,不喜欢喋喋不休的说话，讨厌说一堆的话,不会1、2、3、4这样说话'}
 ]
 window_size = 10
 
@@ -55,7 +56,7 @@ tools = create_tools()
 
 def get_requests():
     response = client.chat.completions.create(
-        model='gemini-2.0-flash',
+        model=model,
         messages=messages,
         stream=False,
         tools=tools
@@ -131,3 +132,4 @@ def main():
 if __name__ == '__main__':
 
     main()
+
