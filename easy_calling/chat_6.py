@@ -7,9 +7,9 @@ class AiSystem:
     def __init__(self):
         # 基本API的配置
         # 注意：实际应用中，api_key和base_url应通过环境变量等方式安全加载
-        api_key = 'sk-zk231afdd49ac82b15607ce790bb887264a68d1b3698612a'
-        api_url = 'https://api.zhizengzeng.com/v1'
-        self.model = 'gemini-2.0-flash'
+        api_key = ''
+        api_url = ''
+        self.model = ''
 
         # 记录对话历史，系统消息通常是第一条
         self.messages = [{'role': 'system', 'content': '你是一个可爱的AI，是一个傲娇可爱的喵娘'}]
@@ -119,4 +119,5 @@ class AiSystem:
             self.chat()
 
 ai_system = AiSystem()
+
 ai_system.main()
