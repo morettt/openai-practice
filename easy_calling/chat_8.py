@@ -4,9 +4,9 @@ import json
 import inspect
 import requests
 
-API_KEY = ''
-API_URL = ''
-model = ''
+API_KEY = 'sk-zk231afdd49ac82b15607ce790bb887264a68d1b3698612a'
+API_URL = 'https://api.zhizengzeng.com/v1'
+model = 'gemini-2.0-flash'
 messages = [
     {'role': 'system', 'content': '你是一个傲娇的AI'}
 ]
@@ -41,7 +41,7 @@ tools = []
 for name, func in FUNCTIONS.items():
     sig = inspect.signature(func)
 
-    properties = {} 
+    properties = {}
     required = []
 
     for param_name, param in sig.parameters.items():
@@ -76,50 +76,44 @@ def get_requests():
     )
     return response
 
+
 def accept_chat(response):
     message = response.choices[0].message
 
     if message.tool_calls:
 
         messages.append({
-            "role":"assistant",
-            "content":message.content,
-            "tool_calls":message.tool_calls
+            "role": "assistant",
+            "content": message.content,
+            "tool_calls": message.tool_calls
         })
 
         for tool_call in message.tool_calls:
             function_name = tool_call.function.name
-
             print(f'ai想要用：{function_name}')
 
             if tool_call.function.arguments:
                 argus = json.loads(tool_call.function.arguments)
                 print(f'参数：{argus}')
                 result = FUNCTIONS[function_name](**argus)
-
             else:
                 result = FUNCTIONS[function_name]()
             print(f'结果：{result}')
 
-
             messages.append({
-                "role":"tool",
-                "content":f'结果：{result}',
-                "tool_call_id":tool_call.id,
-                "name":name
+                "role": "tool",
+                "content": f'结果：{result}',
+                "tool_call_id": tool_call.id,
+                "name": function_name
             })
 
-            ai_response = get_requests()
-            ai_tool_content = ai_response.choices[0].message.content
-            print(f'ai:{ai_tool_contentt}')
-            return ai_tool_content
+        ai_response = get_requests()
+        ai_tool_content = ai_response.choices[0].message.content
+        print(f'ai:{ai_tool_content}')
+        return ai_tool_content
 
     content = message.content
     print(f'AI：{content}')
-    return content
-
-    content = message.content
-    print(f'AI:{content}')
     return content
 
 def add_message(role, content):
@@ -142,4 +136,3 @@ def main():
 
 if __name__ == '__main__':
     main()
-
