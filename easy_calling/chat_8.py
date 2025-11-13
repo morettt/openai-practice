@@ -84,7 +84,7 @@ def accept_chat(response):
         messages.append({
             "role":"assistant",
             "content":message.content,
-            "toll_calls":message.tool_calls
+            "tool_calls":message.tool_calls
         })
 
         for tool_call in message.tool_calls:
@@ -142,3 +142,4 @@ def main():
 
 if __name__ == '__main__':
     main()
+
